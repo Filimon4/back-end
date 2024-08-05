@@ -12,7 +12,7 @@ const config = {
   password: 'admin',
   database: 'notion_db',
   entities: ['dist/**/*.entity.js'],
-  migrations: ['./src/db/migrations/*.{ts,js}'],
+  migrations: ['./migrations/*.{ts,js}'],
   synchronize: false,
 }
 

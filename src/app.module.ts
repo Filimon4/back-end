@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SuperbaseModule } from './superbase/superbase.module';
+import { PuppeterModule } from './puppeter/puppeter.module';
+import { AuthModule } from './auth/auth.module';
 import postgresConfig from 'src/config/postgresConfig';
 
 @Module({
@@ -11,12 +12,13 @@ import postgresConfig from 'src/config/postgresConfig';
       isGlobal: true,
       load: [postgresConfig]
     }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => (configService.get('database'))
-    })
+    // TypeOrmModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: async (configService: ConfigService) => (configService.get('database') as TypeOrmModuleOptions)
+    // }),
+    SuperbaseModule,
+    PuppeterModule,
+    AuthModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
