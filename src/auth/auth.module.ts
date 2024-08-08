@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { SupabaseService } from 'src/supabase/supabase.service';
 import { JwtModule } from '@nestjs/jwt';
-import { PasJWTStrategy } from '../passport/jwt.strategy';
-import { PassportModule } from '@nestjs/passport';
 import { SupabaseModule } from 'src/supabase/supabase.module';
+import { LocalStrategy } from './strategies/local.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
-  imports: [JwtModule.register({ secret: process.env.JWT_SECRET, signOptions: { expiresIn: '60s' }}), PassportModule, SupabaseModule],
+  imports: [JwtModule.register({secret: process.env.JWT_SECRET, signOptions: {expiresIn: '20m'}}), SupabaseModule],
   controllers: [AuthController],
-  providers: [AuthService, PasJWTStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}

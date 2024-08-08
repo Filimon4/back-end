@@ -1,25 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { CreateAuthDto } from './dto/create-auth.dto';
+import { UpdateAuthDto } from './dto/update-auth.dto';
 import { SupabaseService } from 'src/supabase/supabase.service';
-import { UserDto } from './dto/user.auth.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
+
   constructor(
-    private readonly supabaseService: SupabaseService,
+    private readonly supabaseClient: SupabaseService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  public register () {
-
+  signin(user: any) {
+    const payload = { username: user.username, id: user.id}
+    return {
+      access_token: this.jwtService.sign(payload)
+    };
   }
 
-  public async signUp (user: UserDto) {
-    const userDB = await this.supabaseService.addUser(user.username, user.password)
+  signup(createAuthDto: CreateAuthDto) {
+    
   }
 
-  public signOut () {
-
+  async validateUser(username: string, password: string) {
+    const userDB = await this.supabaseClient.getUserByUsername(username);
+    //@ts-ignore
+    if (userDB && userDB[0].password != password) {
+      throw new UnauthorizedException()
+    }
+    return userDB;
   }
-
-
-
 }

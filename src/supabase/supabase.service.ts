@@ -15,12 +15,21 @@ export class SupabaseService {
     )
   }
 
-  public async getUser(username: string) {
+  public async getUserByUsername(username: string) {
     let {data: User, error} = await this.supebaseClient
       .from("User")
       .select('*')
       .eq('username', username)
-    if (error) throw error.hint || new Error('unable to find user');
+    if (error) throw error.hint;
+    return User;
+  }
+
+  public async getUserById(id: number) {
+    let {data: User, error} = await this.supebaseClient
+      .from("User")
+      .select('*')
+      .eq('id', id)
+    if (error) throw error.hint;
     return User;
   }
 
@@ -31,7 +40,7 @@ export class SupabaseService {
         { username: username, password: password },
       ])
       .select()
-    if (error) throw error.hint || new Error('unable to register user');
+    if (error) throw error.hint;
     return data;
   }
 }
