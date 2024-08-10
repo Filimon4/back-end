@@ -20,7 +20,8 @@ export class AuthService {
   }
 
   signup(createAuthDto: CreateAuthDto) {
-
+    const payload = { username: createAuthDto.username, password: createAuthDto.password}
+    this.supabaseClient.addUser(payload.username, payload.password)
   }
 
   async validateUser(username: string, password: string) {

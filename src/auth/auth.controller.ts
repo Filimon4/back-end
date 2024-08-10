@@ -17,8 +17,8 @@ export class AuthController {
   }
 
   @Post('signup')
-  signup() {
-
+  signup(@Body() user: CreateAuthDto) {
+    return this.authService.signup(user)
   }
 
   @UseGuards(JwtAuthGuard)
