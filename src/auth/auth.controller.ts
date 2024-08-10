@@ -4,6 +4,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { LocalAuthGuard } from './guard/localauth.guard';
 import { JwtAuthGuard } from './guard/jwtauth.guard';
+import { Cookies } from 'src/utils/decCookies';
 
 @Controller('auth')
 export class AuthController {
@@ -20,5 +21,4 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
-
 }
