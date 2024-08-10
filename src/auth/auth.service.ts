@@ -20,14 +20,15 @@ export class AuthService {
   }
 
   signup(createAuthDto: CreateAuthDto) {
-    
+
   }
 
   async validateUser(username: string, password: string) {
     const userDB = await this.supabaseClient.getUserByUsername(username);
+    if (userDB?.length == 0) return null;
     //@ts-ignore
     if (userDB && userDB[0].password != password) {
-      throw new UnauthorizedException()
+      throw null
     }
     return userDB;
   }

@@ -16,6 +16,11 @@ export class AuthController {
     return this.authService.signin(req.user);
   }
 
+  @Post('signup')
+  signup() {
+
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
