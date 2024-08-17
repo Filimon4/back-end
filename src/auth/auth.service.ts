@@ -15,7 +15,8 @@ export class AuthService {
   signin(user: any) {
     const payload = { username: user.username, id: user.id}
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload, { expiresIn: '20m' }),
+      refresh_token: this.jwtService.sign(payload, { expiresIn: '1h'})
     };
   }
 
@@ -32,5 +33,11 @@ export class AuthService {
       throw null
     }
     return userDB;
+  }
+
+  refreshToken(user: {username: string, id: string}) {
+    return {
+      access_token: this.jwtService.sign(user, { expiresIn: '10s' })
+    };
   }
 }
